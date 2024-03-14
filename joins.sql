@@ -164,6 +164,13 @@ FROM products p
 NATURAL JOIN customer_orders co
 ORDER BY p.product_id;
 
+# USING Keyword
+
+SELECT c.customer_id, first_name, co.order_id 
+FROM customers c
+LEFT OUTER JOIN customer_orders co
+	ON c.customer_id = co.customer_id
+ORDER BY c.customer_id, co.order_id;
 
 
 # Unions - combine the results of two or more SELECT statements into a single result
