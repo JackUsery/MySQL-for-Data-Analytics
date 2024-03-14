@@ -172,8 +172,103 @@ LEFT OUTER JOIN customer_orders co
 	ON c.customer_id = co.customer_id
 ORDER BY c.customer_id, co.order_id;
 
+SELECT c.customer_id, first_name, co.order_id 
+FROM customers c
+LEFT OUTER JOIN customer_orders co
+	USING(customer_id)
+ORDER BY c.customer_id, co.order_id;
 
-# Unions - combine the results of two or more SELECT statements into a single result
+
+# The UNION operator in SQL is used to combine the result sets of two or more SELECT statements. However, it only includes distinct values.
+
+#The UNION ALL operator does the same, but includes duplicates.
+
+#Union Syntax:
+
+#SELECT sale_id, product_id, sale_amount
+#FROM sales_2022
+#UNION
+#SELECT sale_id, product_id, sale_amount
+#FROM sales_2023;
 
 
+#Union All Syntax:
+
+#SELECT sale_id, product_id, sale_amount
+#FROM sales_2022
+#UNION ALL
+#SELECT sale_id, product_id, sale_amount
+#FROM sales_2023;
+
+SELECT *
+FROM customers;
+
+SELECT *
+FROM products;
+
+SELECT first_name, last_name
+FROM customers
+UNION
+SELECT product_id, product_name
+FROM products;
+
+
+SELECT first_name, last_name, 'old'
+FROM customers
+WHERE YEAR(birth_date) < 1950;
+
+SELECT first_name, last_name, 'old'
+FROM customers
+WHERE YEAR(birth_date) < 1950
+UNION
+SELECT first_name, last_name, 'Good Tipper'
+FROM customers c
+JOIN customer_orders co
+	ON c.customer_id = co.customer_id
+WHERE tip > 3;
+
+
+SELECT first_name, last_name, 'old' as Lable
+FROM customers
+WHERE YEAR(birth_date) < 1950
+UNION
+SELECT first_name, last_name, 'Good Tipper'
+FROM customers c
+JOIN customer_orders co
+	ON c.customer_id = co.customer_id
+WHERE tip > 3
+UNION
+SELECT first_name, last_name, 'Big Spender'
+FROM customers c
+JOIN customer_orders co
+	ON c.customer_id = co.customer_id
+WHERE total_money_spent > 1000
+ORDER BY first_name, last_name;
+
+
+# removes duplicates
+SELECT first_name, last_name, 'old' as Lable
+FROM customers
+WHERE YEAR(birth_date) < 1950
+UNION DISTINCT
+SELECT first_name, last_name, 'Good Tipper'
+FROM customers c
+JOIN customer_orders co
+	ON c.customer_id = co.customer_id
+WHERE tip > 3
+UNION DISTINCT
+SELECT first_name, last_name, 'Big Spender'
+FROM customers c
+JOIN customer_orders co
+	ON c.customer_id = co.customer_id
+WHERE total_money_spent > 1000
+ORDER BY first_name, last_name;
+
+SELECT first_name, last_name, 'old' as Lable
+FROM customers
+WHERE YEAR(birth_date) < 1950
+UNION ALL
+SELECT first_name, last_name, 'old' as Lable
+FROM customers
+WHERE YEAR(birth_date) < 1950;
 
