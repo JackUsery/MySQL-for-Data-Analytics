@@ -100,6 +100,19 @@ JOIN customer_orders_review cor
     
 # outer joins
 
+SELECT c.customer_id, first_name, co.order_id 
+FROM customers c
+LEFT OUTER JOIN customer_orders co
+	ON c.customer_id = co.customer_id
+ORDER BY c.customer_id;
+
+SELECT c.customer_id, first_name, co.order_id 
+FROM customers c
+RIGHT OUTER JOIN customer_orders co
+	ON c.customer_id = co.customer_id
+ORDER BY c.customer_id;
+
+
 # Right join - returns all records from the right table, and matched records from the left table
 
 # Left join - returns all records from the left table, and matched records from the right table
