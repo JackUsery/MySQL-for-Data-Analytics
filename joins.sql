@@ -157,6 +157,15 @@ FROM customers c
 CROSS JOIN customer_orders co
 ORDER BY c.customer_id;
 
+# Natural Join - let the database assume the connection (for simple tables)
+
+SELECT *
+FROM products p
+NATURAL JOIN customer_orders co
+ORDER BY p.product_id;
+
+
+
 # Unions - combine the results of two or more SELECT statements into a single result
 
 
