@@ -113,6 +113,7 @@ RIGHT OUTER JOIN customer_orders co
 ORDER BY c.customer_id;
 
 
+
 # Right join - returns all records from the right table, and matched records from the left table
 
 # Left join - returns all records from the left table, and matched records from the right table
@@ -120,6 +121,21 @@ ORDER BY c.customer_id;
 # Full join - returns all records from both tables
 
 # self joins - table is joined to itself: aliases are required
+
+SELECT *
+FROM customers c
+JOIN customers ss
+	ON c.first_name = ss.first_name;
+
+SELECT *
+FROM customers c
+JOIN customers ss
+	ON c.customer_id = ss.customer_id + 1;
+
+SELECT c.customer_id, c.first_name, c.last_name, ss.customer_id, ss.first_name, ss.last_name
+FROM customers c
+JOIN customers ss
+	ON c.customer_id + 1 = ss.customer_id;
 
 
 # cross joins - returns all possible combinations of all rows: no 'ON' clause
