@@ -51,8 +51,60 @@ WHERE total_money_spent > (SELECT AVG(total_money_spent)
 
 # ANY and ALL Operators
 
+# ANY Operator:
+
+# The ANY operator returns true if the comparison is true for any value in the set of values returned by the subquery.
+
+# For example:
+
+# SELECT product_name 
+# FROM products 
+# WHERE product_price > ANY (SELECT product_price FROM products WHERE supplier_id = 10);
 
 
+SELECT shipper_id, order_id, quantity, unit_price, (quantity * unit_price) AS total_order_price
+FROM ordered_items
+WHERE (quantity * unit_price) > ANY (SELECT (quantity * unit_price) as total_order_price
+							FROM ordered_items
+							WHERE shipper_id = 1);
+
+
+# ALL Operator:
+
+# The ALL operator returns true only if the comparison is true for all values in the set of values returned by the subquery.
+
+# For example:
+
+# SELECT product_name 
+# FROM products 
+# WHERE product_price > ALL (SELECT product_price FROM products WHERE supplier_id = 10);
+
+SELECT *
+FROM ordered_items;
+
+
+SELECT MAX(quantity * unit_price) as total_order_price
+FROM ordered_items
+WHERE shipper_id = 1;
+
+SELECT order_id, quantity, unit_price, (quantity * unit_price) AS total_order_price
+FROM ordered_items
+WHERE (quantity * unit_price) > (SELECT MAX(quantity * unit_price) as total_order_price
+							FROM ordered_items
+							WHERE shipper_id = 1);
+
+SELECT shipper_id, order_id, quantity, unit_price, (quantity * unit_price) AS total_order_price
+FROM ordered_items
+WHERE (quantity * unit_price) > (SELECT MAX(quantity * unit_price) as total_order_price
+							FROM ordered_items
+							WHERE shipper_id = 1);
+
+
+SELECT shipper_id, order_id, quantity, unit_price, (quantity * unit_price) AS total_order_price
+FROM ordered_items
+WHERE (quantity * unit_price) > ALL (SELECT (quantity * unit_price) as total_order_price
+							FROM ordered_items
+							WHERE shipper_id = 1);
 
 
 
