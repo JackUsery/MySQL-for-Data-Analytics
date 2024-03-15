@@ -111,22 +111,19 @@ WHERE (quantity * unit_price) > ALL (SELECT (quantity * unit_price) as total_ord
 
 # Exists
 
+SELECT *
+FROM customers
+WHERE EXISTS
+	( SELECT customer_id
+	FROM customer_orders);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+SELECT *
+FROM customers c
+WHERE EXISTS
+	( SELECT customer_id
+	FROM customer_orders
+    WHERE customer_id = c.customer_id);
 
 # Subqueries in Select and From
 
