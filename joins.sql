@@ -272,3 +272,112 @@ SELECT first_name, last_name, 'old' as Lable
 FROM customers
 WHERE YEAR(birth_date) < 1950;
 
+
+# Join Use Cases
+
+SELECT *
+FROM ordered_items;
+
+SELECT *
+FROM products;
+
+
+
+SELECT p.product_name, o.unit_price, p.sale_price
+FROM ordered_items o
+JOIN products p
+	ON o.product_id = p.product_id;
+
+
+SELECT DISTINCT p.product_name, o.unit_price, p.sale_price
+FROM ordered_items o
+JOIN products p
+	ON o.product_id = p.product_id;
+
+
+SELECT DISTINCT p.product_name, 
+o.unit_price, 
+p.sale_price,
+p.sale_price - o.unit_price AS Profit
+FROM ordered_items o
+JOIN products p
+	ON o.product_id = p.product_id;
+
+
+SELECT DISTINCT p.product_name, 
+o.unit_price, 
+p.sale_price,
+p.sale_price - o.unit_price AS Profit
+FROM ordered_items o
+JOIN products p
+	ON o.product_id = p.product_id
+ORDER BY Profit DESC;
+
+
+SELECT DISTINCT p.product_name, 
+o.unit_price, 
+p.sale_price,
+units_in_stock,
+p.sale_price - o.unit_price AS Profit
+FROM ordered_items o
+JOIN products p
+	ON o.product_id = p.product_id
+ORDER BY Profit DESC;
+
+
+SELECT DISTINCT p.product_name, 
+o.unit_price, 
+p.sale_price,
+units_in_stock,
+p.sale_price - o.unit_price AS Profit,
+(p.sale_price - o.unit_price) * units_in_stock AS potential_profit
+FROM ordered_items o
+JOIN products p
+	ON o.product_id = p.product_id
+ORDER BY potential_profit DESC;
+
+
+# use case
+
+SELECT *
+FROM supplier_delivery_status;
+
+SELECT *
+FROM ordered_items;
+
+SELECT *
+FROM suppliers;
+
+
+SELECT *
+FROM ordered_items o
+JOIN supplier_delivery_status sds
+	ON o.status = sds.order_status_id
+JOIN suppliers s
+	ON o.shipper_id = s.supplier_id;
+
+
+SELECT o.order_id, sds.name, o.status, o.shipped_date, s.name
+FROM ordered_items o
+JOIN supplier_delivery_status sds
+	ON o.status = sds.order_status_id
+JOIN suppliers s
+	ON o.shipper_id = s.supplier_id;
+
+
+SELECT o.order_id, sds.name, o.status, o.shipped_date, s.name
+FROM ordered_items o
+JOIN supplier_delivery_status sds
+	ON o.status = sds.order_status_id
+JOIN suppliers s
+	ON o.shipper_id = s.supplier_id
+WHERE sds.name <> 'Delivered';
+
+SELECT o.order_id, sds.name, o.status, o.shipped_date, s.name
+FROM ordered_items o
+JOIN supplier_delivery_status sds
+	ON o.status = sds.order_status_id
+JOIN suppliers s
+	ON o.shipper_id = s.supplier_id
+WHERE sds.name <> 'Delivered'
+AND YEAR(shipped_date) < YEAR(NOW()) - 2;
