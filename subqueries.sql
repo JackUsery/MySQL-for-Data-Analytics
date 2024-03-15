@@ -17,12 +17,37 @@
 # Subquery Basics
 
 
+SELECT *
+FROM customers;
 
 
+SELECT *
+FROM customers
+WHERE customer_id IN 
+	( SELECT customer_id
+	FROM customer_orders);
 
-
-
-
+# only can have 1 colume in sub
+SELECT *
+FROM customers
+WHERE customer_id IN 
+	( SELECT customer_id, tip
+	FROM customer_orders
+    WHERE tip > 1);
+    
+SELECT *
+FROM customers
+WHERE customer_id IN 
+	( SELECT customer_id
+	FROM customer_orders
+    WHERE tip > 1);    
+    
+    
+    
+SELECT *
+FROM customers
+WHERE total_money_spent > (SELECT AVG(total_money_spent)
+							FROM customers);  
 
 # ANY and ALL Operators
 
